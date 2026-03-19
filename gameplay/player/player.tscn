@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://el4p37wt8ws5"]
+
+[ext_resource type="Script" uid="uid://cgc5tkjl1urxu" path="res://gameplay/player/player.gd" id="1_xq3ts"]
+[ext_resource type="PackedScene" uid="uid://exupq8shw2lk" path="res://gameplay/player/camera_rig.tscn" id="2_wvk08"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_011tu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2uk1t"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1361355056]
+script = ExtResource("1_xq3ts")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1036574171]
+shape = SubResource("CapsuleShape3D_011tu")
+
+[node name="Mesh" type="Node3D" parent="." unique_id=2004952838]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=376978191]
+mesh = SubResource("CapsuleMesh_2uk1t")
+
+[node name="Components" type="Node3D" parent="." unique_id=424984500]
+
+[node name="CameraRig" parent="." unique_id=1845534140 instance=ExtResource("2_wvk08")]

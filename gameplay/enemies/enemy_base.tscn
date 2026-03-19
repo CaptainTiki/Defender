@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ffj6lvaha3uv"]
+
+[ext_resource type="Script" uid="uid://2y1f20mi3dl6" path="res://gameplay/enemies/enemy_base.gd" id="1_jsw7i"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jsw7i"]
+
+[node name="EnemyBase" type="Node3D" unique_id=599162013]
+script = ExtResource("1_jsw7i")
+
+[node name="Mesh" type="Node3D" parent="." unique_id=1966955073]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=233785289]
+mesh = SubResource("CapsuleMesh_jsw7i")
+
+[node name="Components" type="Node3D" parent="." unique_id=310234669]

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://soxja0ji71s5"]
+
+[ext_resource type="Script" uid="uid://c7jhf6odyn5a6" path="res://system/main.gd" id="1_7am6p"]
+[ext_resource type="PackedScene" uid="uid://dqn0oxxoij7nf" path="res://menu_system/menu_manager.tscn" id="2_gisfo"]
+
+[node name="Main" type="Node3D" unique_id=505193544]
+script = ExtResource("1_7am6p")
+
+[node name="MenuManager" parent="." unique_id=1043134274 instance=ExtResource("2_gisfo")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2138970742]
+unique_name_in_owner = true

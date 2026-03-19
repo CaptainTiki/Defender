@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bo4oxt2ytr05l"]
+
+[ext_resource type="Script" uid="uid://c4hf0yx33hkfe" path="res://gameplay/pickups/pickup_base.gd" id="1_l7s5i"]
+
+[node name="PickupBase" type="Node3D" unique_id=1417389019]
+script = ExtResource("1_l7s5i")
