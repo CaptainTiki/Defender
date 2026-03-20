@@ -3,16 +3,30 @@
 [ext_resource type="Script" uid="uid://doj45ifq0vhba" path="res://gameplay/levels/level.gd" id="1_6mttl"]
 [ext_resource type="Material" uid="uid://d1hd2fcw6fxv1" path="res://assets/materials/level_floor_1.tres" id="2_so80d"]
 [ext_resource type="PackedScene" uid="uid://0hh5qo21l3wl" path="res://gameplay/levels/components/player_spawn.tscn" id="3_gpfku"]
+[ext_resource type="PackedScene" path="res://gameplay/vfx/debris_pool.tscn" id="5_dpool"]
+[ext_resource type="PackedScene" path="res://gameplay/vfx/grenade_explosion_pool.tscn" id="7_explpool"]
+[ext_resource type="PackedScene" path="res://gameplay/ui/health_bar.tscn" id="8_hbar"]
+[ext_resource type="PackedScene" path="res://gameplay/ui/grenade_bar.tscn" id="9_gbar"]
+[ext_resource type="PackedScene" path="res://gameplay/levels/wave_manager.tscn" id="6_wavemgr"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ihhpb"]
 material = ExtResource("2_so80d")
-size = Vector2(20, 20)
+size = Vector2(200, 200)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_so80d"]
+size = Vector3(200, 1, 200)
 
 [sub_resource type="BoxMesh" id="BoxMesh_b78gq"]
-size = Vector3(1, 1, 21)
+size = Vector3(1, 1, 201)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iognd"]
-size = Vector3(21, 1, 1)
+size = Vector3(201, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_so80d"]
+size = Vector3(1, 1, 201)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gpfku"]
+size = Vector3(201, 1, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ajtoe"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -30,6 +44,28 @@ glow_enabled = true
 [node name="DebugLevel" type="Node3D" unique_id=1406611536]
 script = ExtResource("1_6mttl")
 
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="PlayerHUD" instance=ExtResource("8_hbar")]
+
+[node name="GrenadeBar" parent="PlayerHUD" instance=ExtResource("9_gbar")]
+
+[node name="DebrisPool" parent="." unique_id=1700000002 instance=ExtResource("5_dpool")]
+
+[node name="ExplosionPool" parent="." instance=ExtResource("7_explpool")]
+
+[node name="WaveManager" parent="." unique_id=1700000003 instance=ExtResource("6_wavemgr")]
+
+[node name="Entities" type="Node3D" parent="." unique_id=1300000001]
+
+[node name="Enemies" type="Node3D" parent="Entities" unique_id=1300000002]
+
+[node name="Projectiles" type="Node3D" parent="Entities" unique_id=1300000003]
+
+[node name="Pickups" type="Node3D" parent="Entities" unique_id=1300000004]
+
+[node name="VFX" type="Node3D" parent="Entities" unique_id=1300000005]
+
 [node name="Environment" type="Node3D" parent="." unique_id=201273613]
 
 [node name="Geometry" type="Node3D" parent="Environment" unique_id=213052708]
@@ -37,21 +73,27 @@ script = ExtResource("1_6mttl")
 [node name="FloorMesh" type="MeshInstance3D" parent="Environment/Geometry" unique_id=431982882]
 mesh = SubResource("PlaneMesh_ihhpb")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Geometry/FloorMesh" unique_id=537556711]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Geometry/FloorMesh/StaticBody3D" unique_id=533597579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_so80d")
+
 [node name="Wall_W" type="MeshInstance3D" parent="Environment/Geometry" unique_id=62149052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 0)
 mesh = SubResource("BoxMesh_b78gq")
 
 [node name="Wall_N" type="MeshInstance3D" parent="Environment/Geometry" unique_id=2117509927]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
 mesh = SubResource("BoxMesh_iognd")
 
 [node name="Wall_E" type="MeshInstance3D" parent="Environment/Geometry" unique_id=1505515487]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-mesh = SubResource("BoxMesh_b78gq")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
+mesh = SubResource("BoxMesh_so80d")
 
 [node name="Wall_S" type="MeshInstance3D" parent="Environment/Geometry" unique_id=1369765216]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-mesh = SubResource("BoxMesh_iognd")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+mesh = SubResource("BoxMesh_gpfku")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1448074463]
 environment = SubResource("Environment_thogo")

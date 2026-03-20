@@ -2,11 +2,19 @@
 
 [ext_resource type="Script" uid="uid://c7jhf6odyn5a6" path="res://system/main.gd" id="1_7am6p"]
 [ext_resource type="PackedScene" uid="uid://dqn0oxxoij7nf" path="res://menu_system/menu_manager.tscn" id="2_gisfo"]
+[ext_resource type="Script" uid="uid://n23cpyh0gfpe" path="res://gameplay/upgrades/upgrade_manager.gd" id="3_ugmgr"]
 
 [node name="Main" type="Node3D" unique_id=505193544]
 script = ExtResource("1_7am6p")
+startup_mode = 2
 
 [node name="MenuManager" parent="." unique_id=1043134274 instance=ExtResource("2_gisfo")]
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2138970742]
 unique_name_in_owner = true
+
+[node name="UpgradeManager" type="Node" parent="." unique_id=1400000001]
+script = ExtResource("3_ugmgr")

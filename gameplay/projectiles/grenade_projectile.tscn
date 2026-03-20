@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cxwnapg8bol2b"]
+
+[ext_resource type="Script" uid="uid://pd0drn3biklc" path="res://gameplay/projectiles/grenade_projectile.gd" id="1_grenade_proj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_grenade"]
+radius = 0.18
+height = 0.36
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grenade"]
+albedo_color = Color(0.2, 1, 0.4, 1)
+emission_enabled = true
+emission = Color(0.2, 1, 0.4, 1)
+emission_energy_multiplier = 4.0
+
+[node name="GrenadeProjectile" type="Node3D" unique_id=650200185]
+script = ExtResource("1_grenade_proj")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1557491470]
+mesh = SubResource("SphereMesh_grenade")
+surface_material_override/0 = SubResource("StandardMaterial3D_grenade")

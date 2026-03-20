@@ -1,0 +1,251 @@
+[gd_scene format=3 uid="uid://cpjwmlbie0dbr"]
+
+[ext_resource type="Script" uid="uid://m8jb4ii038uo" path="res://gameplay/enemies/enemy_armadillo.gd" id="1_y7u23"]
+[ext_resource type="PackedScene" uid="uid://ctu86un8tqify" path="res://gameplay/components/health_component/health_component.tscn" id="2_k0a5j"]
+[ext_resource type="Script" uid="uid://d2ex7jhjgoeof" path="res://gameplay/enemies/armor_plate.gd" id="3_plate"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_enemy"]
+radius = 1.0
+height = 3.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jsw7i"]
+radius = 1.0
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enemy"]
+albedo_color = Color(0.85, 0.15, 0.15, 1)
+emission_enabled = true
+emission = Color(0.6, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="Animation" id="Animation_hymkr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mesh:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mesh:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Mesh:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xdv3y"]
+resource_name = "spawn_in"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mesh:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 0, 1), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mesh:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1p7q0"]
+_data = {
+&"RESET": SubResource("Animation_hymkr"),
+&"spawn_in": SubResource("Animation_xdv3y")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_k0a5j"]
+size = Vector3(0.015, 1, 0.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_plate"]
+size = Vector3(0.2, 1.2, 0.75)
+
+[node name="EnemyArmadillo" type="CharacterBody3D" unique_id=599162013]
+script = ExtResource("1_y7u23")
+
+[node name="BodyShape" type="CollisionShape3D" parent="." unique_id=950000010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_enemy")
+
+[node name="Mesh" type="Node3D" parent="." unique_id=1966955073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=233785289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_jsw7i")
+surface_material_override/0 = SubResource("StandardMaterial3D_enemy")
+
+[node name="MuzzleLeft" type="Marker3D" parent="Mesh" unique_id=1700411253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.094216585, -1.3973066)
+
+[node name="MuzzleRight" type="Marker3D" parent="Mesh" unique_id=1700411254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.094216585, -1.3973066)
+
+[node name="HurtBox" type="Area3D" parent="." unique_id=950000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=950000002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54999995, 0)
+shape = SubResource("CapsuleShape3D_enemy")
+
+[node name="Components" type="Node3D" parent="." unique_id=310234669]
+
+[node name="HealthComponent" parent="Components" unique_id=950000003 instance=ExtResource("2_k0a5j")]
+max_health = 150.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2111155448]
+libraries/ = SubResource("AnimationLibrary_1p7q0")
+
+[node name="ArmorRing" type="Node3D" parent="." unique_id=1805708434]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Armor1" type="Node3D" parent="ArmorRing" unique_id=578941843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1000001, 0, 0)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor1" unique_id=1393606354]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor1" unique_id=88979242]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor1/HurtBox" unique_id=365796931]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor5" type="Node3D" parent="ArmorRing" unique_id=732147921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1000001, 0, 0)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor5" unique_id=1504092556]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor5" unique_id=410246322]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor5/HurtBox" unique_id=679153721]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor2" type="Node3D" parent="ArmorRing" unique_id=100789429]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -6.0400296e-08, 0, 1.1000001)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor2" unique_id=615648691]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor2" unique_id=219877732]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor2/HurtBox" unique_id=1263132841]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor6" type="Node3D" parent="ArmorRing" unique_id=1531035780]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.9565154e-10, 0, -1.1000001)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor6" unique_id=1995027627]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor6" unique_id=954180375]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor6/HurtBox" unique_id=1326788242]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor3" type="Node3D" parent="ArmorRing" unique_id=111784117]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0.79497474, 0, 0.79497474)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor3" unique_id=909407398]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor3" unique_id=1416277843]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor3/HurtBox" unique_id=427084068]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor7" type="Node3D" parent="ArmorRing" unique_id=162701499]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -0.7949748, 0, -0.79497474)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor7" unique_id=725125987]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor7" unique_id=677401394]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor7/HurtBox" unique_id=1630937472]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor4" type="Node3D" parent="ArmorRing" unique_id=1808165436]
+transform = Transform3D(-0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071068, -0.7949748, 0, 0.79497474)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor4" unique_id=817475752]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor4" unique_id=1939301802]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor4/HurtBox" unique_id=945407591]
+shape = SubResource("BoxShape3D_plate")
+
+[node name="Armor8" type="Node3D" parent="ArmorRing" unique_id=2051209560]
+transform = Transform3D(-0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071068, 0.79497474, 0, -0.79497474)
+script = ExtResource("3_plate")
+
+[node name="Mesh" type="MeshInstance3D" parent="ArmorRing/Armor8" unique_id=868325745]
+mesh = SubResource("BoxMesh_k0a5j")
+
+[node name="HurtBox" type="Area3D" parent="ArmorRing/Armor8" unique_id=617389981]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmorRing/Armor8/HurtBox" unique_id=60699279]
+shape = SubResource("BoxShape3D_plate")

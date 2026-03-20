@@ -1,0 +1,81 @@
+[gd_scene format=3 uid=""]
+
+[ext_resource type="Script" path="res://gameplay/vfx/grenade_explosion.gd" id="1_expl"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_burst"]
+size = Vector3(0.18, 0.14, 0.16)
+
+[sub_resource type="Gradient" id="Gradient_burst"]
+colors = PackedColorArray(0.55, 1.0, 0.25, 1.0, 0.08, 0.55, 0.08, 0.0)
+offsets = PackedFloat32Array(0.0, 1.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_debris"]
+size = Vector3(0.08, 0.07, 0.08)
+
+[sub_resource type="Gradient" id="Gradient_debris"]
+colors = PackedColorArray(1.0, 0.95, 0.3, 1.0, 0.6, 0.8, 0.1, 0.0)
+offsets = PackedFloat32Array(0.0, 1.0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ring"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="Material_ring"]
+transparency = 1
+albedo_color = Color(0.2, 1.0, 0.5, 0.9)
+emission_enabled = true
+emission = Color(0.2, 1.0, 0.5, 1.0)
+emission_energy_multiplier = 6.0
+cull_mode = 2
+
+[node name="GrenadeExplosion" type="Node3D"]
+script = ExtResource("1_expl")
+
+[node name="BurstParticles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 60
+lifetime = 0.85
+one_shot = true
+explosiveness = 1.0
+randomness = 0.25
+mesh = SubResource("BoxMesh_burst")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -5, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 14.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+scale_amount_min = 1.2
+scale_amount_max = 3.5
+color_ramp = SubResource("Gradient_burst")
+
+[node name="DebrisParticles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 35
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.9
+randomness = 0.4
+mesh = SubResource("BoxMesh_debris")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -8, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 22.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+scale_amount_min = 0.8
+scale_amount_max = 2.5
+color_ramp = SubResource("Gradient_debris")
+
+[node name="ShockwaveRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+mesh = SubResource("CylinderMesh_ring")
+surface_material_override/0 = SubResource("Material_ring")
+
+[node name="FlashLight" type="OmniLight3D" parent="."]
+light_color = Color(0.35, 1.0, 0.45, 1.0)
+light_energy = 12.0
+omni_range = 10.0

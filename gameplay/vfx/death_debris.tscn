@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ohcm2qu7vobb"]
+
+[ext_resource type="Script" uid="uid://bqf7j5gvj686" path="res://gameplay/vfx/death_debris.gd" id="1_debris"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mod8b"]
+transparency = 1
+albedo_color = Color(0.85, 0.15, 0.15, 1)
+emission_enabled = true
+emission = Color(0.6, 0.05, 0.05, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_debris"]
+size = Vector3(0.16, 0.22, 0.12)
+
+[node name="DebrisChunk" type="Node3D" unique_id=1600000001]
+script = ExtResource("1_debris")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1600000002]
+material_override = SubResource("StandardMaterial3D_mod8b")
+mesh = SubResource("BoxMesh_debris")

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dbj17gncdvpdm"]
+
+[ext_resource type="Script" uid="uid://bib2y12qc4j8k" path="res://gameplay/vfx/spawn_effect.gd" id="1_spwne"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+inner_radius = 0.72
+
+[node name="SpawnEffect" type="Node3D" unique_id=1407010181]
+script = ExtResource("1_spwne")
+
+[node name="Ring" type="MeshInstance3D" parent="." unique_id=2003674058]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+mesh = SubResource("TorusMesh_1")
+
+[node name="Light" type="OmniLight3D" parent="." unique_id=882439446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+light_color = Color(0.2, 0.85, 1, 1)
+light_energy = 2.0
+omni_range = 6.0

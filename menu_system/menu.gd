@@ -1,7 +1,7 @@
 extends Control
 class_name Menu
 
-enum Type {TITLE, MAIN, SETTINGS, EXITCONFIRM, PAUSE}
+enum Type {TITLE, MAIN, SETTINGS, EXITCONFIRM, PAUSE, UPGRADE}
 
 func show_menu() -> void:
 	set_process(true)

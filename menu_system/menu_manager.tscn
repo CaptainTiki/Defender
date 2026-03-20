@@ -4,5 +4,8 @@
 
 [node name="MenuManager" type="Control" unique_id=1043134274]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+process_mode = 3
 script = ExtResource("1_xrek7")

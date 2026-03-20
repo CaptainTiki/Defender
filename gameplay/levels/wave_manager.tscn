@@ -1,0 +1,6 @@
+[gd_scene format=3 uid=""]
+
+[ext_resource type="Script" path="res://gameplay/levels/wave_manager.gd" id="1_wavemgr"]
+
+[node name="WaveManager" type="Node"]
+script = ExtResource("1_wavemgr")

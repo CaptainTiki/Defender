@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://bomojgomjsxx7"]
+
+[ext_resource type="Script" uid="uid://dcqm4x1uc0s0d" path="res://menu_system/menus/upgrade_screen.gd" id="1_upgscr"]
+
+[node name="UpgradeScreen" type="Control" unique_id=1200000001]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_upgscr")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1200000002]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.03, 0.04, 0.08, 0.88)
+
+[node name="BitsLabel" type="Label" parent="." unique_id=1200000003]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 52.0
+text = "Bits: 0"
+horizontal_alignment = 1
+
+[node name="TreeContainer" type="Control" parent="." unique_id=1200000004]
+clip_contents = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="TreeCanvas" type="Control" parent="TreeContainer" unique_id=1200000013]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1200000012]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -56.0
+offset_right = 80.0
+offset_bottom = -20.0
+text = "Continue"
+
+[node name="Tooltip" type="PanelContainer" parent="." unique_id=1200000005]
+visible = false
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Tooltip" unique_id=1200000006]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Tooltip/MarginContainer" unique_id=1200000007]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UpgradeName" type="Label" parent="Tooltip/MarginContainer/VBox" unique_id=1200000008]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Upgrade Name"
+
+[node name="Cost" type="Label" parent="Tooltip/MarginContainer/VBox" unique_id=1200000009]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "0 bits"
+
+[node name="Description" type="Label" parent="Tooltip/MarginContainer/VBox" unique_id=389328137]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "Description"
+
+[node name="FluffText" type="Label" parent="Tooltip/MarginContainer/VBox" unique_id=454087223]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "FluffText"
