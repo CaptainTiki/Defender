@@ -30,6 +30,8 @@ func _ready() -> void:
 	movement_component.dash_started.connect(_on_dash_started)
 	movement_component.dash_finished.connect(_on_dash_finished)
 	health_component.died.connect(_on_died)
+	if UpgradeManager.instance:
+		health_component.max_health += UpgradeManager.instance.get_bonus(UpgradeData.EffectStat.MAX_HEALTH)
 	equip_weapon(Prefabs.weapon_base)
 	_magnet_area.area_entered.connect(_on_magnet_area_entered)
 	_setup_hit_material()
@@ -91,6 +93,8 @@ func take_damage(info: DamageInfo) -> void:
 		return
 	_invincibility_timer = HIT_INVINCIBILITY_DURATION
 	health_component.take_damage(info.amount)
+	if UpgradeManager.instance.current_run:
+		UpgradeManager.instance.current_run.damage_taken += info.amount
 	if info.direction != Vector3.ZERO:
 		_apply_knockback(info.direction, info.knockback)
 	_flash_hit()
@@ -209,6 +213,7 @@ func _on_died() -> void:
 
 func _on_death_linger_finished() -> void:
 	Engine.time_scale = 1.0
+	UpgradeManager.instance.commit_run()
 	if MenuManager.instance != null:
 		MenuManager.instance.show_menu(Menu.Type.UPGRADE)
 	else:

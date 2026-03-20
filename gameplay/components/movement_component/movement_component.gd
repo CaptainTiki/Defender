@@ -4,12 +4,18 @@ class_name MovementComponent
 signal dash_started
 signal dash_finished
 
-@export var move_speed: float = 5.3
+@export var move_speed: float = 4.5
 @export var dash_speed: float = 24.0
 @export var dash_duration: float = 0.15
 @export var dash_cooldown: float = 0.6
 
 var is_dashing: bool = false
+
+
+func _ready() -> void:
+	if UpgradeManager.instance:
+		move_speed += UpgradeManager.instance.get_bonus(UpgradeData.EffectStat.MOVE_SPEED)
+		dash_cooldown += UpgradeManager.instance.get_bonus(UpgradeData.EffectStat.DASH_COOLDOWN)
 
 var _dash_timer: float = 0.0
 var _cooldown_timer: float = 0.0

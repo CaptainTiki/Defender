@@ -13,6 +13,10 @@ const BIT_COUNT_MAX: int = 4
 const MELEE_DAMAGE: float = 20.0
 const MELEE_RANGE: float = 1.1
 const MELEE_COOLDOWN: float = 0.5
+const LUNGE_RANGE: float = 2.2
+const LUNGE_FORCE: float = 16.0
+const LUNGE_COOLDOWN: float = 1.5
+const LUNGE_DECAY: float = 14.0
 
 @export var move_speed: float = 5.25
 
@@ -22,6 +26,8 @@ const MELEE_COOLDOWN: float = 0.5
 var _anim_player: AnimationPlayer = null
 var _player: Node3D = null
 var _knockback: Vector3 = Vector3.ZERO
+var _lunge_velocity: Vector3 = Vector3.ZERO
+var _lunge_timer: float = 0.0
 var _is_spawning: bool = true
 var _melee_timer: float = 0.0
 
@@ -65,7 +71,17 @@ func _physics_process(delta: float) -> void:
 			mesh_node.rotation.y = atan2(-move_dir.x, -move_dir.z)
 
 	_knockback = _knockback.move_toward(Vector3.ZERO, KNOCKBACK_DECAY * delta)
+	_lunge_velocity = _lunge_velocity.move_toward(Vector3.ZERO, LUNGE_DECAY * delta)
 	_melee_timer = max(0.0, _melee_timer - delta)
+	_lunge_timer = max(0.0, _lunge_timer - delta)
+
+	if _player != null and _lunge_timer <= 0.0:
+		var to_player_flat := _player.global_position - global_position
+		to_player_flat.y = 0.0
+		var dist := to_player_flat.length()
+		if dist > MELEE_RANGE and dist <= LUNGE_RANGE:
+			_lunge_velocity = to_player_flat.normalized() * LUNGE_FORCE
+			_lunge_timer = LUNGE_COOLDOWN
 
 	if _player != null and _melee_timer <= 0.0:
 		var to_player := _player.global_position - global_position
@@ -73,8 +89,8 @@ func _physics_process(delta: float) -> void:
 		if to_player.length() <= MELEE_RANGE:
 			_deal_melee_damage(to_player.normalized())
 
-	velocity.x = move_dir.x * move_speed + _knockback.x
-	velocity.z = move_dir.z * move_speed + _knockback.z
+	velocity.x = move_dir.x * move_speed + _knockback.x + _lunge_velocity.x
+	velocity.z = move_dir.z * move_speed + _knockback.z + _lunge_velocity.z
 
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta

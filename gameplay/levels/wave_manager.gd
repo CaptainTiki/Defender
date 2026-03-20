@@ -34,10 +34,11 @@ func _connect_upgrade_screen() -> void:
 
 
 func _on_upgrades_confirmed() -> void:
-	get_tree().reload_current_scene()
+	Main.instance.restart_level()
 
 
 func start_run() -> void:
+	UpgradeManager.instance.start_run()
 	Engine.time_scale = 1.0
 	CameraRig.zoom_far()
 	_current_spawn_interval = spawn_interval_start
@@ -53,6 +54,8 @@ func _process(delta: float) -> void:
 
 	_total_elapsed += delta
 	_current_spawn_interval = maxf(spawn_interval_min, spawn_interval_start - _total_elapsed * spawn_interval_ramp_rate)
+	if UpgradeManager.instance.current_run:
+		UpgradeManager.instance.current_run.time_alive += delta
 
 	# Initial burst: fire off the opening enemies in quick succession
 	if _burst_remaining > 0:
@@ -104,3 +107,5 @@ func _random_spawn_position() -> Vector3:
 
 func _on_enemy_died() -> void:
 	_enemies_alive -= 1
+	if UpgradeManager.instance.current_run:
+		UpgradeManager.instance.current_run.kills += 1

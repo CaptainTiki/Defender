@@ -39,4 +39,6 @@ func _on_area_entered(area: Area3D) -> void:
 		damage_info.source = self
 		damage_info.type = DamageInfo.Type.PROJECTILE
 		parent.take_damage(damage_info)
+		if UpgradeManager.instance.current_run:
+			UpgradeManager.instance.current_run.damage_dealt += damage
 	queue_free()

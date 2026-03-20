@@ -4,9 +4,9 @@ class_name BitPickup
 const GRAVITY: float = -12.0
 const LAND_Y: float = 0.06
 const COLLECT_DIST: float = 0.5
-const MAGNET_RADIUS: float = 3.75
-const PULL_SPEED_MIN: float = 3.5
-const PULL_SPEED_MAX: float = 22.0
+const MAGNET_RADIUS: float = 5.5
+const PULL_SPEED_MIN: float = 6.0
+const PULL_SPEED_MAX: float = 32.0
 
 @onready var _mesh: MeshInstance3D = $Mesh
 @onready var _light: OmniLight3D = $Light

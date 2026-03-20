@@ -11,7 +11,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2uk1t"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_magnet"]
-radius = 3.75
+radius = 5.5
 
 [sub_resource type="SphereMesh" id="SphereMesh_cursor"]
 radius = 0.2

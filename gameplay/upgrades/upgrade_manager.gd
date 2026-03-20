@@ -3,14 +3,45 @@ class_name UpgradeManager
 
 static var instance: UpgradeManager
 
-var bits: int = 100  # seeded for testing; real value comes from pickups
-var purchased_ids: Array[String] = ["origin"]
+var player_data: PlayerData
+var current_run: RunData
+
+var bits: int:
+	get: return player_data.bits
+	set(value): player_data.bits = value
+
+var purchased_ids: Array[String]:
+	get: return player_data.purchased_upgrade_ids
 
 var _stat_bonuses: Dictionary = {}
 
 
 func _ready() -> void:
 	UpgradeManager.instance = self
+	continue_game()
+
+
+func new_game() -> void:
+	player_data = PlayerData.new()
+	player_data.save()
+	_stat_bonuses.clear()
+
+
+func continue_game() -> void:
+	player_data = PlayerData.load_or_create()
+	_rebuild_bonuses_from_purchases()
+
+
+func start_run() -> void:
+	current_run = RunData.new()
+
+
+func commit_run() -> void:
+	if current_run == null:
+		return
+	player_data.commit_run(current_run)
+	player_data.save()
+	current_run = null
 
 
 func is_purchased(id: String) -> bool:
@@ -40,6 +71,7 @@ func purchase(data: UpgradeData) -> bool:
 	bits -= data.cost
 	purchased_ids.append(data.id)
 	_apply_effect(data)
+	player_data.save()
 	return true
 
 
@@ -48,7 +80,9 @@ func get_bonus(stat: UpgradeData.EffectStat) -> float:
 
 
 func add_bits(amount: int) -> void:
-	bits += amount
+	player_data.bits += amount
+	if current_run:
+		current_run.bits_gathered += amount
 
 
 func _apply_effect(data: UpgradeData) -> void:
@@ -56,3 +90,14 @@ func _apply_effect(data: UpgradeData) -> void:
 		return
 	var current: float = _stat_bonuses.get(data.effect_stat, 0.0)
 	_stat_bonuses[data.effect_stat] = current + data.effect_value
+
+
+func _rebuild_bonuses_from_purchases() -> void:
+	_stat_bonuses.clear()
+	for upgrade in UpgradeDatabase.get_all_upgrades():
+		if not is_purchased(upgrade.id):
+			continue
+		if upgrade.effect_stat == UpgradeData.EffectStat.NONE:
+			continue
+		var current: float = _stat_bonuses.get(upgrade.effect_stat, 0.0)
+		_stat_bonuses[upgrade.effect_stat] = current + upgrade.effect_value
